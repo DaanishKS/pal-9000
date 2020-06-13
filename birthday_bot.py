@@ -15,8 +15,7 @@ class BirthdayBot:
         slack_token = config_data['bot_user_oauth_token']
         self.client = WebClient(token=slack_token)
 
-        self.birthday_channel = config_data['birthday_channel_id']
-
+        self.config = config_data
         self.data = pd.read_csv(data_file, sep='\t')
 
     def send_message(self, channel, msg_txt):
@@ -45,12 +44,12 @@ class BirthdayBot:
             for n in eligible_people:
                 if n.last_name[-1] != 's':
                     self.send_message(
-                        self.config['test_channel_id'],
+                        self.config['birthday_channel_id'],
                         f"It's {n.first_name} {n.last_name}'s birthday today! :tada:"
                     )
                 else:
                     self.send_message(
-                        self.config['test_channel_id'],
+                        self.config['birthday_channel_id'],
                         f"It's {n.first_name} {n.last_name}' birthday today! :tada"
                     )
         else:
@@ -58,6 +57,9 @@ class BirthdayBot:
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="history.log", level=logging.DEBUG)
+    logging.basicConfig(filename="history.log",
+                        level=logging.DEBUG,
+                        format='%(asctime)s | %(levelname)s: %(message)s',
+                        datefmt='%Y-%m-%dT%H:%M:%S%z')
     bot = BirthdayBot("config.json", "data.tsv")
     bot.send_bday_notices()
