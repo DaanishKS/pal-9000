@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-autopep8 = "*"
+yapf = "*"
 
 [packages]
 slackclient = ">=2.7.1"

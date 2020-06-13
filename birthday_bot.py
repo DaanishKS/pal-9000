@@ -1,9 +1,10 @@
-import json
-import pandas as pd
 from datetime import date
+import json
 import logging
+
 from slack import WebClient
 from slack.errors import SlackApiError
+import pandas as pd
 
 
 class BirthdayBot:
@@ -20,8 +21,8 @@ class BirthdayBot:
 
     def send_message(self, channel, msg_txt):
         try:
-            response = self.client.chat_postMessage(
-                channel=channel, text=msg_txt)
+            response = self.client.chat_postMessage(channel=channel,
+                                                    text=msg_txt)
         except SlackApiError as e:
             assert e.response["error"]
 
@@ -44,10 +45,16 @@ class BirthdayBot:
             for n in eligible_people:
                 if n.last_name[-1] != 's':
                     self.send_message(
-                        self.birthday_channel, f"It's {n.first_name} {n.last_name}'s birthday today! :tada:")
+                        self.config['test_channel_id'],
+                        f"It's {n.first_name} {n.last_name}'s birthday today! :tada:"
+                    )
                 else:
                     self.send_message(
-                        self.birthday_channel, f"It's {n.first_name} {n.last_name}' birthday today! :tada")
+                        self.config['test_channel_id'],
+                        f"It's {n.first_name} {n.last_name}' birthday today! :tada"
+                    )
+        else:
+            logging.info("No birthdays to announce today.")
 
 
 if __name__ == "__main__":
