@@ -42,6 +42,7 @@ class BirthdayBot:
         eligible_people = self.check_bday_eligibility()
         if len(eligible_people) > 0:
             for n in eligible_people:
+                logging.info(f"Birthday: {n.first_name} {n.last_name}")
                 if n.last_name[-1] != 's':
                     self.send_message(
                         self.config['birthday_channel_id'],
@@ -50,7 +51,7 @@ class BirthdayBot:
                 else:
                     self.send_message(
                         self.config['birthday_channel_id'],
-                        f"It's {n.first_name} {n.last_name}' birthday today! :tada"
+                        f"It's {n.first_name} {n.last_name}' birthday today! :tada:"
                     )
         else:
             logging.info("No birthdays to announce today.")
